@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "geo",
+    "slug": "geo",
+    "privacy": "public",
+    "sdkVersion": "32.0.0",
+    "facebookDisplayName": "geovendor",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyA2umUzNKxCCT8OuW4V3f-34g0nA73OSmA"
+      }
+    }
+  }
+}
