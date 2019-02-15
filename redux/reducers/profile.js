@@ -1,3 +1,5 @@
+import { omit } from 'lodash'
+
 export default profile = (state = {
         loggedIn: false,
         cards: [],
@@ -26,6 +28,12 @@ export default profile = (state = {
         }
         case 'ADD_POST_TO_PROFILE': {
             return { ...state, user: action.user }
+        }
+        case 'REMOVE_POST': {
+            console.log(action.id)
+            return { 
+                ...state, 
+                user: { ...state.user, posts: omit(state.user.posts, action.id) } }
         }
         case 'UPLOAD_IMAGES': {
             return { ...state, user: {...state.user, images: action.payload } }

@@ -42,7 +42,7 @@ export const TabStack = createMaterialTopTabNavigator (
     navigationOptions: {
       header: null
     },
-    initialRouteName: 'Home',
+    initialRouteName: 'Profile',
     swipeEnabled: false,
     tabBarOptions: {
       showIcon: true,

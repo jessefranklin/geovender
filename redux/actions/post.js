@@ -14,6 +14,7 @@ export function postDraft(obj){
         id: obj.id,
         title: obj.title,
         applicants: 0,
+        status: obj.status,
         createdAt: new Date().toLocaleString() 
       }
 
@@ -33,16 +34,17 @@ export function publishPost(obj){
 
 export function editPostById(id){
   return function(dispatch){
-    f.database().ref('posts/').update({ [obj.id]:obj });
-    dispatch({ type: 'DRAFT', payload: {} });
+    f.database().ref('posts/').child(id).once('value', function(snapshot){
+      dispatch({ type: 'POST_JOB', payload: snapshot.val() });
+    });
   };
 }
 
 export function deletePostById(id){
-  return function(){
-    console.log(id);
-    f.database().ref('posts/').child(id).remove();
-    f.database().ref('profiles/' + f.auth().currentUser.uid + '/posts/').child(id).remove();
+  return function(dispatch){
+    // f.database().ref('posts/').child(id).remove();
+    // f.database().ref('profiles/' + f.auth().currentUser.uid + '/posts/').child(id).remove();
+    dispatch({ type: 'REMOVE_POST', id });
   };
 }
 

@@ -10,7 +10,7 @@ export default () => {
     const store = createStore(reducers, middleware)
     
     store.subscribe(() => {
-        // console.log(store.getState());
+        console.log(store.getState());
     });
 
     return store;

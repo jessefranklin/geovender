@@ -18,7 +18,7 @@ export function login(user){
         notification: false,
         show: false,
         report: false,
-        posts: [],
+        posts: ' ',
         swipes: {
           [user.uid]: false
         },

@@ -151,6 +151,14 @@ var styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '200'
   },
+  leftSwipeItemSubText: {
+    fontSize: 18,
+    fontWeight: '200',
+    color: 'grey'
+  },
+  swipeRow: {
+
+  },
   title1: {
     fontSize: 20,
     fontWeight: '200'
