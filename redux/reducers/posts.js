@@ -4,7 +4,7 @@ const intialState = {
 
 export default posts = (state = intialState, action) => {
     switch (action.type) {
-        case 'FETCH_POSTS': {
+        case 'GEO_POSTS': {
             return action.payload
         }
         default:

@@ -29,8 +29,10 @@ export default profile = (state = {
         case 'ADD_POST_TO_PROFILE': {
             return { ...state, user: action.user }
         }
+        case 'GEOCODE': {
+            return { ...state, user: { ...state.user, geocode: action.geocode } }
+        }
         case 'REMOVE_POST': {
-            console.log(action.id)
             return { 
                 ...state, 
                 user: { ...state.user, posts: omit(state.user.posts, action.id) } }

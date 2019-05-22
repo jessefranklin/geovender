@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn start --reset-cache
+  /usr/local/bin/node /usr/local/bin/yarn run dev-server
 
 PATH: 
   /Library/Frameworks/Python.framework/Versions/3.7/bin:/anaconda3/bin:/usr/local/php5/bin:/Users/jessefrankling/.rbenv/shims:/Users/jessefrankling/.rbenv/bin:/Users/jessefrankling/.rvm/gems/ruby-2.2.7/bin:/Users/jessefrankling/.rvm/gems/ruby-2.2.7@global/bin:/Users/jessefrankling/.rvm/rubies/ruby-2.2.7/bin:/opt/local/bin:/opt/local/sbin:/usr/local/mysql/bin:/usr/local/git/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/Library/PostgreSQL/9.1/bin:/Users/jessefrankling/.rvm/bin
@@ -23,11 +23,12 @@ npm manifest:
       "eject": "expo eject"
     },
     "dependencies": {
-      "@expo/vector-icons": "^9.0.0",
+      "@expo/vector-icons": "8.0.0",
       "axios": "^0.18.0",
       "expo": "^32.0.0",
       "firebase": "^5.8.2",
       "latlon-geohash": "^1.1.0",
+      "lodash": "^4.17.11",
       "numeral": "^2.0.6",
       "qs": "^6.6.0",
       "react": "16.5.0",
@@ -621,14 +622,7 @@ Lockfile:
       hoist-non-react-statics "^2.2.2"
       prop-types "^15.5.10"
   
-  "@expo/vector-icons@^9.0.0":
-    version "9.0.0"
-    resolved "https://registry.yarnpkg.com/@expo/vector-icons/-/vector-icons-9.0.0.tgz#7f18e21d3edc8b99b76d7d1b8e26b212393e08b3"
-    dependencies:
-      lodash "^4.17.4"
-      react-native-vector-icons "6.0.0"
-  
-  "@expo/vector-icons@github:expo/vector-icons#expo-font-fix":
+  "@expo/vector-icons@8.0.0", "@expo/vector-icons@github:expo/vector-icons#expo-font-fix":
     version "8.0.0"
     resolved "https://codeload.github.com/expo/vector-icons/tar.gz/259d1ab7bd298832213733b5260d55b95b611df7"
     dependencies:
@@ -3307,7 +3301,7 @@ Lockfile:
     version "4.1.3"
     resolved "https://registry.yarnpkg.com/lodash.zipobject/-/lodash.zipobject-4.1.3.tgz#b399f5aba8ff62a746f6979bf20b214f964dbef8"
   
-  lodash@^4.0.0, lodash@^4.16.6, lodash@^4.17.10, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.6.1:
+  lodash@^4.0.0, lodash@^4.16.6, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.6.1:
     version "4.17.11"
     resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   
@@ -5601,17 +5595,14 @@ Lockfile:
       yargs-parser "^7.0.0"
 
 Trace: 
-  Error: Command failed.
-  Exit code: 1
-  Command: sh
-  Arguments: -c expo start --reset-cache
-  Directory: /Users/jessefrankling/apps/geo
-  Output:
-  
-      at ProcessTermError.MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
-      at new ProcessTermError (/usr/local/lib/node_modules/yarn/lib/cli.js:226:113)
-      at ChildProcess.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:30281:17)
-      at emitTwo (events.js:126:13)
-      at ChildProcess.emit (events.js:214:7)
-      at maybeClose (internal/child_process.js:925:16)
-      at Process.ChildProcess._handle.onexit (internal/child_process.js:209:5)
+  Error: Command "dev-server" not found.
+      at new MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:87307:17
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:98:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:116:14
+      at new Promise (<anonymous>)
+      at new F (/usr/local/lib/node_modules/yarn/lib/cli.js:23451:28)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:95:12
+      at runCommand (/usr/local/lib/node_modules/yarn/lib/cli.js:87312:22)
+      at Object.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:87412:14)
