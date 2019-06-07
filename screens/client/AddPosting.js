@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import uuid from "uuid/v1";
 import { View } from "react-native";
 import styles from "../../styles";
-import PostFrom from "../../components/posts/PostForm";
+import PostFrom from "../../components/postform";
 
 class AddPosting extends React.Component {
   state = {};
@@ -12,12 +12,15 @@ class AddPosting extends React.Component {
 
   render() {
     const edit = this.props.navigation.getParam("edit", false);
+    const status = this.props.navigation.getParam("status");
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <PostFrom
           postObj={this.state}
           edit={edit}
-          navigation={this.props.navigation}
+          status={status}
+          navigation={navigation}
         />
       </View>
     );

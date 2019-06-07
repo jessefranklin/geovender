@@ -6,41 +6,28 @@ import uuid from "uuid/v1";
 
 import styles from "../../styles";
 import Loading from "../../components/shared/loading";
-import CliPostDetail from "../../components/offers/CliPostDetail";
+import PostDetail from "../../components/post/PostDetail";
 
-class CliViewPost extends React.Component {
-  state = {
-    loading: true
-  };
+class ClientViewPost extends React.Component {
+  state = {};
 
-  componentWillMount = async () => {
-    const marker = await this.props.navigation.getParam("marker");
-    if (marker) {
-      this.setState({ marker }, () => {
-        this.setState({ loading: false });
-      });
-    }
-  };
+  componentWillMount = async () => {};
 
   render() {
-    const { loading, marker } = this.state;
-    if (loading) {
-      return <Loading />;
-    } else {
-      return (
-        <View style={styles.container}>
-          <CliPostDetail marker={marker} />
-        </View>
-      );
-    }
+    const { post } = this.props;
+
+    return (
+      <View style={styles.container}>
+        <PostDetail state={post} />
+      </View>
+    );
   }
 }
 
 function mapStateToProps(state) {
   return {
-    user: state.profile.user,
     post: state.post
   };
 }
 
-export default connect(mapStateToProps)(CliViewPost);
+export default connect(mapStateToProps)(ClientViewPost);

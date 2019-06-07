@@ -10,6 +10,10 @@ class Rating extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      rate: this.props.rate,
+      post: this.props.post,
+      type: this.props.type,
+      author: auth.currentUser.uid,
       rating: 5,
       createdAt: new Date().toLocaleString(),
       comment: ""
@@ -23,14 +27,8 @@ class Rating extends Component {
   }
 
   postRating() {
-    const payload = {
-      user: this.props.user,
-      post: this.props.post,
-      type: this.props.type,
-      author: auth.currentUser.uid,
-      rating: this.state
-    };
-    this.props.rateClient(payload);
+    // console.log(this.state);
+    this.props.rateClient(this.state);
   }
 
   render() {
@@ -56,7 +54,6 @@ class Rating extends Component {
 }
 
 Rating.propTypes = {
-  user: PropTypes.string.isRequired,
   post: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired
 };

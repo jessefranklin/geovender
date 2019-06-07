@@ -3,23 +3,19 @@ import styles from "../../styles";
 import { connect } from "react-redux";
 import OfferList from "../../components/offers/OfferList";
 import Schedule from "../../components/calendar/";
-
+import { fetchProfileOffers } from "../../redux/actions/offer";
 import { Text, View, ScrollView } from "react-native";
 
-class OffersScreen extends React.Component {
+class ScheduleScreen extends React.Component {
   state = {};
 
-  componentDidMount() {}
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.offers !== this.props.offers) {
-    }
+  componentDidMount() {
+    this.props.fetchProfileOffers();
   }
 
-  render() {
-    const { navigation, offers } = this.props;
-    const array = offers ? Object.values(offers) : 0;
+  componentWillReceiveProps(nextProps) {}
 
+  render() {
     return (
       <ScrollView>
         <View style={[styles.container]}>
@@ -32,11 +28,11 @@ class OffersScreen extends React.Component {
   }
 }
 
-mapStateToProps = state => {
-  return {
-    offers: state.profile.user.offers,
-    likes: state.likes
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  fetchProfileOffers: () => dispatch(fetchProfileOffers())
+});
 
-export default connect(mapStateToProps)(OffersScreen);
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(ScheduleScreen);

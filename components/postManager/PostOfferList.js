@@ -1,4 +1,5 @@
 import React from "react";
+import { f } from "../../config/config";
 import styles from "../../styles";
 import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
@@ -6,11 +7,18 @@ import PostOfferItem from "./PostOfferItem";
 import { denyOfferAction, approveOfferAction } from "../../redux/actions/offer";
 
 import { Text, View } from "react-native";
-
 class PostOfferList extends React.Component {
-  state = {
-    currentlyOpenSwipeable: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {};
+    // f.database()
+    //   .ref(`offers/`)
+    //   .child(this.props.id)
+    //   .once("value", function(snapshot) {
+    //     // console.log(snapshot.val());
+    //     this.setState({ offers: snapshot.val() });
+    //   });
+  }
 
   componentWillMount() {}
 
@@ -29,11 +37,14 @@ class PostOfferList extends React.Component {
   };
 
   render() {
+    // const { offers } = this.state;
+    const { offers } = this.props;
+
     return (
       <View style={[styles.container, styles.swipelist]}>
-        {this.props.offers.map(offer => {
+        {offers.map(offer => {
           return (
-            <View key={offer.uuid}>
+            <View key={offer.applicant}>
               <PostOfferItem
                 {...offer}
                 approveOffer={offer => this.approveOffer(offer)}

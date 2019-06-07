@@ -9,6 +9,7 @@ import { Text, View, Image, ActivityIndicator, Alert } from "react-native";
 import SwipeCards from "react-native-swipe-cards";
 import Cards from "../../components/cards/Cards.js";
 import NoCards from "../../components/posts/NoCards.js";
+import DeckView from "../../components/post/DeckView";
 
 class Deck extends React.Component {
   state = {
@@ -39,7 +40,7 @@ class Deck extends React.Component {
   }
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.posts !== this.props.posts) {
+    if (nextProps.posts !== this.props.posts && nextProps.posts !== null) {
       const posts = Object.values(nextProps.posts);
       this.setState({ posts });
     }
@@ -96,7 +97,7 @@ class Deck extends React.Component {
           <SwipeCards
             cards={this.state.posts}
             stack={false}
-            renderCard={cardData => <Cards {...cardData} />}
+            renderCard={cardData => <DeckView post={cardData} />}
             renderNoMoreCards={() => <NoCards />}
             showYup={false}
             showNope={false}

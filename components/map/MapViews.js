@@ -14,6 +14,7 @@ import {
 import { Button } from "react-native-elements";
 import MapCallout from "./Callout";
 import { fetchPosts } from "../../redux/actions/posts";
+import { editPostById } from "../../redux/actions/post";
 import Geohash from "latlon-geohash";
 
 class MapViews extends React.Component {
@@ -45,7 +46,7 @@ class MapViews extends React.Component {
   }
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.posts !== this.props.posts) {
+    if (nextProps.posts !== this.props.posts && nextProps.posts !== null) {
       const markers = Object.values(nextProps.posts);
       this.setState({ markers });
     }
@@ -61,8 +62,10 @@ class MapViews extends React.Component {
   };
 
   viewPost = ({ marker }) => {
-    console.log(marker);
-    this.props.navigation.navigate("ViewPost", { marker });
+    var self = this;
+    this.props.dispatch(editPostById(marker.id, "published")).then(() => {
+      self.props.navigation.navigate("ViewPost");
+    });
   };
 
   handleYup(card) {
@@ -78,7 +81,6 @@ class MapViews extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props;
     if (!this.state.maploader) {
       return (
         <View style={[styles.container, styles.center]}>

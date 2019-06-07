@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import OfferItem from "./OfferItem";
 import {
-  offerCompletedAction,
+  providerOfferCompletedAction,
   deleteOfferById,
   archiveOfferAction
 } from "../../redux/actions/offer";
@@ -25,11 +25,11 @@ class OfferList extends React.Component {
   };
 
   deletePost = id => {
-    this.props.deletePostById(id);
+    this.props.deleteOfferById(id);
   };
 
   offerCompleted = offer => {
-    this.props.offerCompletedAction(offer);
+    this.props.providerOfferCompletedAction(offer);
   };
 
   archiveOffer = offer => {
@@ -38,7 +38,7 @@ class OfferList extends React.Component {
 
   render() {
     return (
-      <View style={[styles.container, styles.swipelist]}>
+      <View style={[styles.container]}>
         <View style={styles.titleContainer}>
           <Text style={styles.title1}>{this.props.postsTitle}</Text>
         </View>
@@ -47,7 +47,7 @@ class OfferList extends React.Component {
             <OfferItem
               key={index}
               offer={offer}
-              deletePost={() => this.deletePost(offer.id)}
+              deletePost={() => this.deletePost(offer.postId)}
               offerCompleted={() => this.offerCompleted(offer)}
               archiveOffer={() => this.archiveOffer(offer)}
             />
@@ -59,7 +59,8 @@ class OfferList extends React.Component {
 }
 
 mapDispatchToProps = dispatch => ({
-  offerCompletedAction: offer => dispatch(offerCompletedAction(offer)),
+  providerOfferCompletedAction: offer =>
+    dispatch(providerOfferCompletedAction(offer)),
   archiveOfferAction: offer => dispatch(archiveOfferAction(offer)),
   deleteOfferById: id => dispatch(deleteOfferById(id))
 });

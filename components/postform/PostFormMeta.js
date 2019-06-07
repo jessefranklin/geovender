@@ -8,11 +8,11 @@ import RenderSelect from "../formEl/RenderSelect";
 import { Text, View } from "react-native";
 
 const category = [
-  { value: 0, label: "An extra hand" },
-  { value: 1, label: "Moving" },
-  { value: 2, label: "Lawn Care" },
-  { value: 3, label: "Labour" },
-  { value: 4, label: "Cleaning" }
+  { value: "General", label: "General" },
+  { value: "Moving", label: "Moving" },
+  { value: "Lawn Care", label: "Lawn Care" },
+  { value: "Labour", label: "Labour" },
+  { value: "Cleaning", label: "Cleaning" }
 ];
 
 export class PostFormMeta extends Component {

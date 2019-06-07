@@ -5,10 +5,6 @@ import MapViews from "../../components/map/MapViews";
 class MapView extends React.Component {
   componentWillMount() {}
 
-  viewPost = id => {
-    this.props.navigation.navigate("AddPosting");
-  };
-
   render() {
     const { navigation } = this.props;
 

@@ -1,17 +1,19 @@
 import React from "react";
 import styles from "../../styles";
 import { connect } from "react-redux";
-
+import { filterByStatus } from "../../selectors/filterByStatus";
 import PostManagerList from "../../components/postManager/PostManagerList";
 import { fetchPostsOffers } from "../../redux/actions/postManager";
 import { Text, View, ScrollView } from "react-native";
 
 class PostManagerScreen extends React.Component {
-  state = {};
-
-  componentWillMount() {
-    this.props.fetchPostsOffers(this.props.user.posts);
+  constructor(props) {
+    super(props);
+    state = {};
+    this.props.fetchPostsOffers();
   }
+
+  componentWillMount() {}
 
   componentWillReceiveProps(nextProps) {
     // if(nextProps.user.posts !== this.props.user.posts){
@@ -19,7 +21,8 @@ class PostManagerScreen extends React.Component {
   }
 
   render() {
-    const array = this.props.posts ? Object.values(this.props.posts) : 0;
+    const array = this.props.postManager;
+
     return (
       <ScrollView
         onScroll={this.handleScroll}
@@ -44,12 +47,13 @@ class PostManagerScreen extends React.Component {
 mapStateToProps = state => {
   return {
     user: state.profile.user,
-    posts: state.post_manager
+    posts: state.profilePosts,
+    postManager: state.postManager
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  fetchPostsOffers: postArray => dispatch(fetchPostsOffers(postArray))
+  fetchPostsOffers: () => dispatch(fetchPostsOffers())
 });
 
 export default connect(

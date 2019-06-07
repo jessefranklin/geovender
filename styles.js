@@ -12,6 +12,11 @@ var styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#e8e8e8"
   },
+  containerTop: {
+    flex: 1,
+    paddingTop: 40,
+    backgroundColor: "#e8e8e8"
+  },
   buttonText: {
     fontSize: 18,
     color: "white",
@@ -221,6 +226,44 @@ var styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "lightgrey",
     padding: 20
+  },
+  listItemOffer: {
+    height: 100,
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "stretch",
+    fontFamily: "Roboto",
+    justifyContent: "center",
+    backgroundColor: "white",
+    borderBottomWidth: 1,
+    borderColor: "lightgrey",
+    padding: 20,
+    marginHorizontal: 20,
+    width: deviceWidth * 0.9,
+    overflow: "hidden",
+    borderRadius: 15
+  },
+  swipeRowOffer: {},
+  rowOffer: {
+    fontFamily: "RobotoBold",
+    fontSize: 40,
+    letterSpacing: -1,
+    fontWeight: "600"
+  },
+  statusBadge: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    backgroundColor: "green",
+    color: "#fff",
+    overflow: "hidden",
+    borderRadius: 5,
+    padding: 5
+  },
+  listTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    margin: 0
   },
   leftSwipeItem: {
     flex: 1,

@@ -48,9 +48,9 @@ class OfferList extends React.Component {
             <LikesItem
               key={post.id}
               {...post}
-              viewPost={() => this.editPost(post.id)}
-              editPost={() => this.editPost(post.id)}
-              deletePost={() => this.deletePost(post.id)}
+              viewPost={() => this.editPost(post.id, post.status)}
+              editPost={() => this.editPost(post.id, post.status)}
+              deletePost={() => this.deletePost(post.id, post.status)}
             />
           );
         })}

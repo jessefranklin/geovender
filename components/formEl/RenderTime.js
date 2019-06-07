@@ -24,11 +24,13 @@ export default function RenderDate(props) {
     <>
       <DatePicker
         style={[styles.datePicker]}
-        date={input.value || moment()}
+        date={input.value}
         mode="time"
         showIcon={false}
         placeholder="Select time"
         confirmBtnText="Confirm"
+        minuteInterval={15}
+        format="h:mm a"
         cancelBtnText="Cancel"
         onDateChange={value => input.onChange(value)}
       />

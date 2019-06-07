@@ -7,7 +7,6 @@ import { f, facebookApi } from "../config/config";
 import { ClientRootStackNavigator } from "../navigation/ClientRootStackNavigator";
 import { ProviderRootStackNavigator } from "../navigation/ProviderRootStackNavigator";
 import { login } from "../redux/actions/profile";
-
 import { Text, View, Alert, Image, TouchableOpacity } from "react-native";
 
 const ClientAppContainer = createAppContainer(ClientRootStackNavigator);
@@ -43,9 +42,9 @@ class Login extends React.Component {
   render() {
     if (this.props.loggedIn) {
       if (this.props.user.type === "Client") {
-        return <ProviderAppContainer />;
-      } else {
         return <ClientAppContainer />;
+      } else {
+        return <ProviderAppContainer />;
       }
     } else {
       return (

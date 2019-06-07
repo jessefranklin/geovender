@@ -7,8 +7,7 @@ import PostOfferItem from "./PostOfferItem";
 import PostOfferList from "./PostOfferList";
 
 import { deletePostById, editPostById } from "../../redux/actions/post";
-import { offerCompletedValidatedAction } from "../../redux/actions/offer";
-
+import { offerCompletedValidatedAction } from "../../redux/actions/postManager";
 import { Text, View } from "react-native";
 
 class PostManagerList extends React.Component {
@@ -24,25 +23,24 @@ class PostManagerList extends React.Component {
     const { currentlyOpenSwipeable } = this.state;
   };
 
-  deletePost = id => {
-    this.props.dispatch(deletePostById(id));
+  deletePost = (id, status) => {
+    this.props.dispatch(deletePostById(id, status));
   };
 
-  editPost = id => {
+  editPost = (id, status) => {
     var self = this;
-    this.props.dispatch(editPostById(id)).then(() => {
+    this.props.dispatch(editPostById(id, status)).then(() => {
       self.props.navigation.navigate("AddPosting", {
         edit: true
       });
     });
   };
 
-  viewPost = id => {
-    this.props.dispatch(editPostById(id, true));
+  viewPost = (id, status) => {
+    this.props.dispatch(editPostById(id, status));
   };
 
   offerCompleteValidate = offer => {
-    console.log(offer);
     this.props.offerCompletedValidatedAction(offer);
   };
 
@@ -56,15 +54,16 @@ class PostManagerList extends React.Component {
         {this.props.posts.length > 0 ? (
           this.props.posts.map((post, index) => {
             const postOffers = post.offers ? Object.values(post.offers) : 0;
+
             if (postOffers.length > 0) {
               return (
                 <View key={index}>
                   <PostManagerItem
                     key={post.id}
                     post={post}
-                    viewPost={() => this.editPost(post.id)}
-                    editPost={() => this.editPost(post.id)}
-                    deletePost={() => this.deletePost(post.id)}
+                    viewPost={() => this.editPost(post.id, post.status)}
+                    editPost={() => this.editPost(post.id, post.status)}
+                    deletePost={() => this.deletePost(post.id, post.status)}
                     offerCompleteValidate={offer =>
                       this.offerCompleteValidate(offer)
                     }

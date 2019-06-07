@@ -5,6 +5,7 @@ import Event from "./Event";
 export default class Events extends Component {
   render() {
     const { events } = this.props;
+
     return (
       <View style={styles.container}>
         <ScrollView>

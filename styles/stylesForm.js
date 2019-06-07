@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
+import { hidden } from "ansi-colors";
 const Dimensions = require("Dimensions");
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
@@ -24,6 +25,13 @@ var styles = StyleSheet.create({
   },
   textdanger: {
     color: "red"
+  },
+  offerContainer: {
+    backgroundColor: "#fff",
+    overflow: "hidden",
+    borderRadius: 10,
+    margin: 20,
+    padding: 20
   },
   screenTitle: {
     fontSize: 35,
@@ -51,9 +59,9 @@ var styles = StyleSheet.create({
     fontWeight: "900"
   },
   rateInput: {
+    flex: 1,
     height: 40,
-    width: 200,
-    display: "flex",
+    width: deviceWidth * 0.4,
     borderColor: "#FFF",
     borderWidth: 1,
     borderRadius: 3,

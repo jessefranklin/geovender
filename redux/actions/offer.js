@@ -4,56 +4,29 @@ import axios from "axios";
 
 export function postOffer(offer, post, user) {
   return function(dispatch) {
-    const postOffer = {
-      postId: post.id,
-      clientId: "",
-      applicant: f.auth().currentUser.uid,
-      category: post.serviceCategory,
-      title: post.title,
-      ...offer
-    };
-    const cOffers = {
-      postId: post.id,
-      clientId: "",
-      applicant: f.auth().currentUser.uid,
-      name: user.name,
-      photoUrl: user.photoUrl,
-      rating: user.rating || 5,
-      ...offer
-    };
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`${cloudFuncURL}/makeOffer`, { offer, post, user })
+        .then(response => {
+          dispatch(fetchProfileOffers());
+          resolve();
+        })
+        .catch(error => {});
+    });
+  };
+}
 
-    f.database()
-      .ref("offers/")
-      .update({ [offer.uuid]: postOffer });
-
-    f.database()
-      .ref(`posts/${post.id}/offers/${f.auth().currentUser.uid}`)
-      .set(cOffers);
-
-    f.database()
-      .ref(`profiles/${f.auth().currentUser.uid}/offers/${post.id}`)
-      .set(postOffer);
-
-    // const me = {
-    //   id: this.props.user.id,
-    //   photoUrl: this.props.user.photoUrl,
-    //   name: this.props.user.name
-    // };
-
-    // const user = {
-    //   id: post.ownerMeta.id,
-    //   photoUrl: post.ownerMeta.photoUrl,
-    //   name: post.ownerMeta.name
-    // };
-    // f.database()
-    //   .ref(`profiles/${f.auth().currentUser.uid}/chats/${post.id}/${card.id}`)
-    //   .set({ user: user });
-
-    // f.database()
-    //   .ref(`profiles/${card.id}/chats/${post.id}/${this.props.user.id}`)
-    //   .set({ user: me });
-
-    // dispatch({ type: "POST_OFFER", payload: postOffer });
+export function fetchProfileOffers() {
+  return function(dispatch) {
+    try {
+      f.database()
+        .ref(`profileOffers/${f.auth().currentUser.uid}`)
+        .once("value", snap => {
+          dispatch({ type: "PROFILE_OFFERS", payload: snap.val() });
+        });
+    } catch (e) {
+      console.error(e);
+    }
   };
 }
 
@@ -80,20 +53,22 @@ export function fetchOffers(offersArray) {
 
 export function denyOfferAction(offer) {
   return function(dispatch) {
+    // Maybe move
+    // f.database()
+    //   .ref(`posts/${offer.postId}/offers/${offer.applicant}`)
+    //   .remove();
+
     f.database()
-      .ref(`posts/${offer.postId}/offers/${offer.applicant}`)
-      .remove();
-    f.database()
-      .ref(`offers/${offer.uuid}`)
+      .ref(`offers/${offer.postId}/${offer.applicant}`)
       .remove();
 
     f.database()
-      .ref(`profiles/${offer.applicant}/offers/${offer.postId}`)
+      .ref(`profileOffers/${offer.applicant}/${offer.postId}`)
       .update({
         status: "denied"
       });
 
-    dispatch({ type: "REMOVE_POST", id });
+    dispatch({ type: "REMOVE_PROFILE_OFFER", payload: offer.applicant });
   };
 }
 
@@ -103,43 +78,43 @@ export function approveOfferAction(offer) {
     axios
       .post(`${cloudFuncURL}/approveOffer`, { offer })
       .then(response => {
-        dispatch(approveOfferSuccess(response.data));
+        dispatch(approveOfferSuccess());
       })
       .catch(error => {});
   };
 }
 
 export function approveOfferSuccess(res) {
-  console.log(res);
+  return function(dispatch) {
+    dispatch(fetchProfileOffers());
+  };
 }
 
 export function deleteOfferById(id) {
   return function(dispatch) {
     f.database()
-      .ref("offer/")
-      .child(id)
+      .ref(`offers/${id}`)
+      .child(f.auth().currentUser.uid)
       .remove();
+
     f.database()
-      .ref("profiles/" + f.auth().currentUser.uid + "/offers/")
+      // .ref("profiles/" + f.auth().currentUser.uid + "/offers/")
+      .ref(`profileOffers/${f.auth().currentUser.uid}`)
       .child(id)
       .remove();
-    dispatch({ type: "REMOVE_POST", id });
+
+    dispatch(approveOfferSuccess());
   };
 }
 
-export function offerCompletedAction(offer) {
+export function providerOfferCompletedAction(offer) {
   return function(dispatch) {
-    f.database()
-      .ref(`posts/${offer.postId}`)
-      .update({
-        status: "completed"
-      });
-
-    f.database()
-      .ref(`profiles/${offer.applicant}/offers/${offer.postId}`)
-      .update({
-        status: "pending-complete"
-      });
+    axios
+      .post(`${cloudFuncURL}/providerOfferCompleted`, { offer })
+      .then(response => {
+        dispatch(approveOfferSuccess(response.data));
+      })
+      .catch(error => {});
   };
 }
 
@@ -157,27 +132,10 @@ export function archiveOfferAction(offer) {
     //     status: 1
     //   });
 
-    f.database()
-      .ref(`profiles/${offer.applicant}/offers/${offer.postId}`)
-      .update({
-        status: "pending-complete"
-      });
+    f.database();
+    // .ref(`profiles/${offer.applicant}/offers/${offer.postId}`)
+    ref(`profileOffers/${offer.applicant}/${offer.postId}`).update({
+      status: "pendingComplete"
+    });
   };
-}
-
-export function offerCompletedValidatedAction(offer) {
-  return function(dispatch) {
-    //dispatch payment
-    axios
-      .post(`${cloudFuncURL}/offerCompleted`, { offer })
-      .then(response => {
-        dispatch(offerCompletedSuccess(response.data));
-      })
-      .catch(error => {});
-    //provide rating for provider
-  };
-}
-
-export function offerCompletedSuccess(res) {
-  console.log(res);
 }

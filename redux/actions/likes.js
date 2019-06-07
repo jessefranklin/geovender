@@ -8,7 +8,7 @@ export function fetchLikes(likesArray) {
     const promises = Object.keys(likesArray).map((key, value) => {
       return f
         .database()
-        .ref(`posts/`)
+        .ref(`posts/published`)
         .child(key)
         .once("value", function(snapshot) {
           if (snapshot.val() !== null) {

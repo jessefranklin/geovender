@@ -43,6 +43,9 @@ class ProfileHeader extends React.Component {
   }
 
   render() {
+    const { path } = this.props;
+    const { avgRating } = this.props.user;
+
     return (
       <View style={styles.container}>
         <View style={styles.header} />

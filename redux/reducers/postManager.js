@@ -5,11 +5,10 @@ const intialState = {
 
 export default (posts = (state = intialState, action) => {
   switch (action.type) {
-    case "ACTIVE_POSTS": {
+    case "POSTS_WITH_OFFERS": {
       return action.payload;
     }
     default:
       return state;
   }
-  return state;
 });

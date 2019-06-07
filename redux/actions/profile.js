@@ -50,6 +50,48 @@ export function login(user) {
   };
 }
 
+export function fetchProfilePosts(postsArray) {
+  return function(dispatch) {
+    draft = [];
+    published = [];
+    postsArray.map(post => {
+      f.database()
+        .ref("posts/")
+        .child(post.id)
+        .once("value", function(snapshot) {
+          if (snapshot.val().state == 1) {
+            published.push(snapshot.val());
+          } else {
+            draft.push(snapshot.val());
+          }
+        });
+    });
+
+    dispatch({ type: "PROFILE_POSTS", draft: draft, published: published });
+  };
+}
+
+export function fetchProfileOffers(postsArray) {
+  return function(dispatch) {
+    draft = [];
+    published = [];
+    postsArray.map(post => {
+      f.database()
+        .ref("posts/")
+        .child(post.id)
+        .once("value", function(snapshot) {
+          if (snapshot.val().state == 1) {
+            published.push(snapshot.val());
+          } else {
+            draft.push(snapshot.val());
+          }
+        });
+    });
+
+    dispatch({ type: "PROFILE_POSTS", draft: draft, published: published });
+  };
+}
+
 export function fetchPosts(postsArray) {
   return function(dispatch) {
     draft = [];

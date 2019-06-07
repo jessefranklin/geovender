@@ -5,8 +5,11 @@ import styles from "../../styles/stylesForm";
 import { Text, View, Alert } from "react-native";
 import { Field } from "redux-form";
 import RenderNumInput from "../formEl/RenderNumInput";
-import RenderCheckbox from "../formEl/RenderCheckbox";
+import RenderButtonGroup from "../formEl/RenderButtonGroup";
 import { postDraft } from "../../redux/actions/post";
+
+const component1 = () => <Text>Flat Rate</Text>;
+const component2 = () => <Text>Hourly</Text>;
 
 export class PostFormOffer extends Component {
   constructor(props) {
@@ -36,41 +39,55 @@ export class PostFormOffer extends Component {
   };
 
   render() {
-    const { arrangement, rate, hours, total } = this.props;
+    const { arrangement, rate, hours } = this.props;
+
+    const buttons = [{ element: component1 }, { element: component2 }];
+    const selectedIndex = 0;
+
     return (
       <View style={[styles.container, styles.formContainer]}>
         <Text style={styles.h3}>Offering</Text>
         <Field
-          name="arrangement"
-          label="Flat Rate"
-          component={RenderCheckbox}
+          name="offer.arrangement"
+          value={selectedIndex}
+          buttons={buttons}
+          component={RenderButtonGroup}
         />
-        <Field name="arrangement" label="Hourly" component={RenderCheckbox} />
-        <View>
+
+        <View style={styles.dateRow}>
           <Field
             style={styles.rateInput}
-            name="hours"
+            name="offer.hours"
             placeholder="Hours"
             component={RenderNumInput}
             type="number"
           />
           <Field
             style={styles.rateInput}
-            name="rate"
+            name="offer.rate"
             placeholder="Rate"
             component={RenderNumInput}
             type="number"
           />
         </View>
 
-        {arrangement ? (
+        {arrangement === 0 ? (
           <Text style={styles.totalOffer}>
-            {rate !== 0 && `Flat Rate ${rate} for ${hours} hours`}
+            {rate !== undefined && hours !== undefined
+              ? `Flat Rate ${rate} for ${hours} hours`
+              : null}
           </Text>
         ) : (
-          <Text style={styles.totalOffer}>
-            {total !== 0 && ` Hourly $${rate} * ${hours} ${total}`}
-          </Text>
+          <View>
+            {(rate !== undefined) & (hours !== undefined) ? (
+              <View>
+                <Text>
+                  `Hourly $${rate} * ${hours}`
+                </Text>
+                <Text style={styles.totalOffer}>${rate * hours}</Text>
+              </View>
+            ) : null}
+          </View>
         )}
       </View>
     );
@@ -78,28 +95,16 @@ export class PostFormOffer extends Component {
 }
 
 PostFormOffer = reduxForm({
-  form: "post.offer",
-  initialValues: {
-    arrangement: false,
-    rate: "0",
-    hours: "0"
-  }
+  form: "post"
 })(PostFormOffer);
 
-const selector = formValueSelector("post.offer");
+const selector = formValueSelector("post");
 
 PostFormOffer = connect(state => {
-  const { arrangement, rate, hours } = selector(
-    state,
-    "arrangement",
-    "rate",
-    "hours"
-  );
   return {
-    arrangement,
-    rate,
-    hours,
-    total: rate * hours
+    arrangement: selector(state, "offer.arrangement"),
+    rate: selector(state, "offer.rate"),
+    hours: selector(state, "offer.hours")
   };
 })(PostFormOffer);
 

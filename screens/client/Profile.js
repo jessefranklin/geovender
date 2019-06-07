@@ -29,7 +29,7 @@ class Profile extends React.Component {
     const array = this.props.user.posts
       ? Object.values(this.props.user.posts)
       : 0;
-    const { navigation } = this.props;
+
     return (
       <ScrollView
         onScroll={this.handleScroll}
@@ -37,7 +37,7 @@ class Profile extends React.Component {
         style={styles.container}
       >
         <ProfileHeader user={this.props.user} />
-        <ProfileOptions />
+        <ProfileOptions navigate={this.props.navigation.navigate} />
         <TouchableOpacity onPress={() => this.props.dispatch(logout())}>
           <Text style={styles.button}>Logout</Text>
         </TouchableOpacity>
@@ -48,8 +48,7 @@ class Profile extends React.Component {
 
 mapStateToProps = state => {
   return {
-    user: state.profile.user,
-    posts: state.profile_posts
+    user: state.profile.user
   };
 };
 

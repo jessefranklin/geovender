@@ -10,8 +10,12 @@ import {
 import Swipeable from "react-native-swipeable";
 import { Ionicons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { Rating } from "react-native-elements";
+import numeral from "numeral";
+import moment from "moment";
 import { deletePostById, editPostById } from "../../redux/actions/post";
-
+import { ListItem } from "react-native-elements";
+import { timeSince } from "../../utils/timeSince";
 export default class PostOfferItem extends Component {
   state = {
     currentlyOpenSwipeable: null
@@ -35,6 +39,8 @@ export default class PostOfferItem extends Component {
 
   render() {
     const { currentlyOpenSwipeable } = this.state;
+    const { rating } = this.props;
+
     return (
       <Swipeable
         leftContent={
@@ -61,34 +67,56 @@ export default class PostOfferItem extends Component {
           this.setState({ currentlyOpenSwipeable: null })
         }
       >
-        <View style={[styles.listItem]}>
-          <TouchableOpacity>
-            <View style={styles.swipeRow}>
-              <View style={styles.swipeIcon}>
-                {this.props.state === 0 ? (
-                  <Ionicons name="ios-at" size={30} color="grey" />
-                ) : (
-                  <Ionicons name="ios-checkmark" size={40} color="green" />
-                )}
+        <View style={[]}>
+          <ListItem
+            title={
+              <View style={{ flex: 1, flexDirection: "row" }}>
+                <Text>{this.props.name}</Text>
+                <Text>* {this.props.rating}</Text>
+                <Text style={styled.ratingText}>
+                  {timeSince(moment(this.props.createdAt))} ago
+                </Text>
               </View>
-              <View>
-                <Text style={styles.leftSwipeItemText}>
-                  {this.props.title}
+            }
+            subtitle={
+              <View style={styled.subtitleView}>
+                <Text>
                   {this.props.status && this.props.status}
-                </Text>
-                <Text style={styles.leftSwipeItemSubText}>
-                  {this.props.uuid}
-                  {this.props.applicant}
-                  {this.props.title}
-                  {this.props.date} {this.props.time}
-                  Title: Date: Last: Client Name Updated: {this.props.date}
-                  {this.props.createdAt}
+                  {numeral(this.props.offer).format("$0,0.00")}{" "}
+                  {moment(this.props.date).format("MMM DD")} {this.props.time}
                 </Text>
               </View>
+            }
+            leftAvatar={{ source: { uri: this.props.photoUrl } }}
+          />
+
+          {/* <View style={styles.swipeRow}>
+            <View style={styles.swipeIcon}>
+              {this.props.state === 0 ? (
+                <Ionicons name="ios-at" size={30} color="grey" />
+              ) : (
+                <Ionicons name="ios-checkmark" size={40} color="green" />
+              )}
             </View>
-          </TouchableOpacity>
+              </View> */}
         </View>
       </Swipeable>
     );
   }
 }
+
+styled = StyleSheet.create({
+  subtitleView: {
+    flexDirection: "row",
+    paddingLeft: 10,
+    paddingTop: 5
+  },
+  ratingImage: {
+    height: 19.21,
+    width: 100
+  },
+  ratingText: {
+    paddingLeft: 10,
+    color: "grey"
+  }
+});

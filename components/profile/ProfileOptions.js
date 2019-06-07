@@ -1,10 +1,10 @@
 import React from "react";
-import { View } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import { ListItem } from "react-native-elements";
 
 const list = [
   {
-    title: "Profile",
+    title: "ProfileDetails",
     icon: "card-travel"
   },
   {
@@ -17,11 +17,16 @@ const list = [
   }
 ];
 
-const ProfileOptions = () => {
+const ProfileOptions = props => {
   return (
     <View>
       {list.map((item, i) => (
-        <ListItem key={i} title={item.title} leftIcon={{ name: item.icon }} />
+        <ListItem
+          key={i}
+          title={item.title}
+          onPress={() => props.navigate(item.title)}
+          leftIcon={{ name: item.icon }}
+        />
       ))}
     </View>
   );

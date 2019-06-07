@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
+import moment from "moment";
 
 export default class Event extends Component {
   render() {
@@ -11,7 +12,7 @@ export default class Event extends Component {
           <Image source={{ uri: image }} style={styles.image} />
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.text}>{date.calendar()}</Text>
+          <Text style={styles.text}>{moment(date).calendar()}</Text>
           <Text style={[styles.text, styles.title]}>{title}</Text>
           <Text style={styles.text}>{description}</Text>
         </View>

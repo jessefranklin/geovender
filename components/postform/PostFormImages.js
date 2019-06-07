@@ -8,27 +8,33 @@ import {
   ImageBackground
 } from "react-native";
 import { connect } from "react-redux";
-
+import { change } from "redux-form";
 import { uploadImages } from "../../redux/actions/post";
 
 class PostFormImages extends React.Component {
   state = {
-    num: this.props.images.length,
-    images: []
+    num: this.props.images.length - 1 || 0,
+    images: this.props.edit ? this.props.images : []
   };
+
+  componentWillMount() {}
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.images !== this.props.images) {
+    if (nextProps.post.images !== this.props.post.images) {
+      this.setState({ images: nextProps.post.images });
+      this.props.dispatch(change("post", "images", nextProps.post.images));
     }
   }
   addImage = () => {
-    const { id } = this.props;
-    const { images } = this.state;
-    this.props.dispatch(uploadImages(id, images));
+    const { id, status } = this.props;
+
+    const img = this.state.images === " " ? [] : this.state.images;
+    this.props.dispatch(uploadImages(id, status, img));
   };
 
   nextPhoto() {
     var num = this.state.num;
-    var length = this.props.images.length - 1;
+    var length = this.state.images.length - 1 || 0;
     if (num >= length) {
       this.setState({ num: 0 });
     } else {
@@ -42,14 +48,11 @@ class PostFormImages extends React.Component {
   }
   render() {
     const { showDescription } = this.props;
-    const { images } = this.state;
+    const { images, num } = this.state;
     return (
       <View>
         <TouchableOpacity onPress={() => this.nextPhoto()}>
-          <ImageBackground
-            style={styles.card}
-            source={{ uri: this.props.images[this.state.num] }}
-          >
+          <ImageBackground style={styles.card} source={{ uri: images[num] }}>
             <Button
               onPress={this.addImage.bind(this)}
               style={[styles.button, { position: "absolute", bottom: 0 }]}
@@ -67,4 +70,10 @@ class PostFormImages extends React.Component {
   }
 }
 
-export default connect()(PostFormImages);
+mapStateToProps = state => {
+  return {
+    post: state.form
+  };
+};
+
+export default connect(mapStateToProps)(PostFormImages);

@@ -18,9 +18,6 @@ class ProviderProfile extends React.Component {
   }
 
   render() {
-    const array = this.props.user.posts
-      ? Object.values(this.props.user.posts)
-      : 0;
     const { navigation } = this.props;
     return (
       <ScrollView
@@ -42,8 +39,7 @@ class ProviderProfile extends React.Component {
 
 mapStateToProps = state => {
   return {
-    user: state.profile.user,
-    posts: state.profile_posts
+    user: state.profile.user
   };
 };
 

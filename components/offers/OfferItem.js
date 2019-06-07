@@ -4,6 +4,8 @@ import styles from "../../styles";
 import { Text, TouchableOpacity, View } from "react-native";
 import Swipeable from "react-native-swipeable";
 import { Ionicons } from "@expo/vector-icons";
+import moment from "moment";
+import numeral from "numeral";
 import Rating from "../shared/rating";
 
 const OfferItem = ({ offer, deletePost, offerCompleted, archiveOffer }) => (
@@ -17,21 +19,26 @@ const OfferItem = ({ offer, deletePost, offerCompleted, archiveOffer }) => (
       </TouchableOpacity>
     ]}
   >
-    <View style={[styles.listItem]}>
-      <View style={styles.swipeRow}>
+    <View style={[styles.listItemOffer]}>
+      <View style={styles.swipeRowOffer}>
+        {/* <View>
+          <Text style={styles.rowOffer}>$88</Text>
+        </View> */}
+
         <View>
-          <Text style={styles.leftSwipeItemText}>
-            {offer.title}
-            {offer.status && offer.status}
-          </Text>
           <Text style={styles.leftSwipeItemSubText}>
-            {offer.category}
-            {offer.title}
-            {offer.date} {offer.time}
-            {offer.date}
-            {offer.createdAt}
+            {offer.category} - {offer.service}
+          </Text>
+          <Text style={styles.listTitle}>{offer.title}</Text>
+
+          <Text style={styles.statusBadge}>{offer.status && offer.status}</Text>
+          <Text style={styles.leftSwipeItemSubText}>
+            Offer: {numeral(offer.offer).format("$0,0.00")}
+            {", "}
+            {moment(offer.date).format("MMM DD")} {offer.time}
           </Text>
         </View>
+
         {offer.status === "approved" && (
           <View style={styles.swipeIcon}>
             <TouchableOpacity onPress={() => offerCompleted(offer)}>
@@ -39,12 +46,9 @@ const OfferItem = ({ offer, deletePost, offerCompleted, archiveOffer }) => (
             </TouchableOpacity>
           </View>
         )}
-        {offer.status === "rate-client" && (
+        {offer.status === "rateClient" && (
           <View style={styles.swipeIcon}>
-            <TouchableOpacity onPress={() => offerCompleted(offer)}>
-              <Text>reset</Text>
-            </TouchableOpacity>
-            <Rating user={offer.clientId} post={offer.postId} type={"client"} />
+            <Rating post={offer.postId} type={"client"} />
           </View>
         )}
       </View>

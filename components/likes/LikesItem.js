@@ -73,7 +73,9 @@ export default class OfferItem extends Component {
                 )}
               </View>
               <View>
-                <Text style={styles.leftSwipeItemText}>{this.props.title}</Text>
+                <Text style={styles.leftSwipeItemText}>
+                  {this.props.meta.title}
+                </Text>
                 <Text style={styles.leftSwipeItemSubText}>
                   Last Updated: {this.props.createdAt}
                 </Text>

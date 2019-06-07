@@ -10,6 +10,8 @@ import {
   TouchableOpacity,
   TouchableHighlight
 } from "react-native";
+import numeral from "numeral";
+import moment from "moment";
 
 const MapCallout = ({ marker, viewPost }) => {
   return (
@@ -19,11 +21,18 @@ const MapCallout = ({ marker, viewPost }) => {
       onPress={() => viewPost({ marker })}
     >
       <View style={styles.calloutContent}>
-        <Text>{marker.serviceCategory}</Text>
-        <Text>{marker.title}</Text>
+        <View>
+          <Text>{numeral(marker.offer.total).format()}</Text>
+        </View>
+        <Text>
+          {marker.meta.serviceCategory} - {marker.meta.serviceName}
+        </Text>
         <View>
           {marker.date_flexable && <Text>Flexiable</Text>}
-          <Text>{marker.date}</Text>
+          <Text>
+            {moment(marker.dateTime.startDate).format("MMM DD")}{" "}
+            {marker.dateTime.startTime}
+          </Text>
         </View>
       </View>
     </MapView.Callout>

@@ -20,21 +20,25 @@ class PostList extends React.Component {
     const { currentlyOpenSwipeable } = this.state;
   };
 
-  deletePost = id => {
-    this.props.dispatch(deletePostById(id));
+  deletePost = (id, status) => {
+    this.props.dispatch(deletePostById(id, status));
   };
 
-  editPost = id => {
+  editPost = (id, status) => {
     var self = this;
-    this.props.dispatch(editPostById(id)).then(() => {
+    this.props.dispatch(editPostById(id, status)).then(() => {
       self.props.navigation.navigate("AddPosting", {
-        edit: true
+        edit: true,
+        status
       });
     });
   };
 
-  viewPost = id => {
-    this.props.dispatch(editPostById(id, true));
+  viewPost = (id, status) => {
+    var self = this;
+    this.props.dispatch(editPostById(id, status)).then(() => {
+      self.props.navigation.navigate("ClientViewPost");
+    });
   };
 
   render() {
@@ -49,9 +53,9 @@ class PostList extends React.Component {
             <PostItem
               key={post.id}
               {...post}
-              viewPost={() => this.editPost(post.id)}
-              editPost={() => this.editPost(post.id)}
-              deletePost={() => this.deletePost(post.id)}
+              viewPost={() => this.viewPost(post.id, post.status)}
+              editPost={() => this.editPost(post.id, post.status)}
+              deletePost={() => this.deletePost(post.id, post.status)}
             />
           );
         })}

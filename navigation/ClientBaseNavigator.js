@@ -4,7 +4,11 @@ import {
   createStackNavigator
 } from "react-navigation";
 import { TouchableWithoutFeedback } from "react-native";
+
+import { View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { Badge, withBadge } from "react-native-elements";
+
 import ViewOverflow from "react-native-view-overflow";
 import AddButton from "../components/common/AddButton";
 import Posts from "../screens/client/Posts";
@@ -39,7 +43,14 @@ const ClientBaseNavigator = createBottomTabNavigator(
       screen: PostManagerScreen,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="stack-exchange" color={tintColor} size={24} />
+          <View>
+            <Icon name="stack-exchange" color={tintColor} size={24} />
+            <Badge
+              value="9"
+              status="error"
+              containerStyle={{ position: "absolute", top: -4, right: -16 }}
+            />
+          </View>
         )
       })
     }

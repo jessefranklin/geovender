@@ -4,6 +4,8 @@ import {
   createMaterialTopTabNavigator
 } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { Badge, withBadge } from "react-native-elements";
+import { View } from "react-native";
 
 import MapView from "../screens/provider/MapView";
 import ProviderProfile from "../screens/provider/ProviderProfile";
@@ -31,7 +33,9 @@ const ProviderBaseNavigator = createBottomTabNavigator(
       ),
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="location-arrow" color={tintColor} size={24} />
+          <View>
+            <Icon name="location-arrow" color={tintColor} size={24} />
+          </View>
         )
       })
     },
@@ -47,7 +51,14 @@ const ProviderBaseNavigator = createBottomTabNavigator(
       screen: OffersScreen,
       navigationOptions: () => ({
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="tag" color={tintColor} size={24} />
+          <View>
+            <Icon name="tag" color={tintColor} size={24} />
+            <Badge
+              value="99"
+              status="error"
+              containerStyle={{ position: "absolute", top: -4, right: -16 }}
+            />
+          </View>
         )
       })
     },
@@ -69,6 +80,7 @@ const ProviderBaseNavigator = createBottomTabNavigator(
     }
   },
   {
+    initialRouteName: "Home",
     tabBarOptions: {
       showLabel: false,
       activeTintColor: "#F8F8F8",

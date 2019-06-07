@@ -23,10 +23,12 @@ export default class PostItem extends Component {
         <View style={[styles.listItem]}>
           <View style={styles.swipeRow}>
             <View>
-              <Text style={styles.leftSwipeItemText}>{post.title}</Text>
-              <Text style={styles.leftSwipeItemSubText}>{post.createdAt}</Text>
+              <Text style={styles.leftSwipeItemText}>
+                {post.meta.title} {post.status}
+              </Text>
+              <Text style={styles.leftSwipeItemSubText}>{post.created_at}</Text>
             </View>
-            {post.status == "completed" && (
+            {post.status == "complete" && (
               <View style={styles.swipeIcon}>
                 <TouchableOpacity
                   onPress={() => this.props.offerCompleteValidate(post)}
@@ -36,10 +38,10 @@ export default class PostItem extends Component {
               </View>
             )}
             <View>
-              {post.status === "rate-provider" && (
+              {post.status === "rateProvider" && (
                 <View>
                   <Rating
-                    user={post.providerMeta.id}
+                    rate={post.approvedOffer.provider}
                     post={post.id}
                     type={"provider"}
                   />
