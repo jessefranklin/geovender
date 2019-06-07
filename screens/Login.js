@@ -1,69 +1,69 @@
-import React from 'react';
-import styles from '../styles'
-import { connect } from 'react-redux';
-import { f, facebookApi } from '../config/config';
-import { createAppContainer } from 'react-navigation';
-import { RootStackNavigator } from '../navigation/RootNavigator.js';
-import { 
-  Text, 
-  View,
-  Alert,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator
-} from 'react-native';
+import React from "react";
+import { createAppContainer } from "react-navigation";
+import { connect } from "react-redux";
 
-import { login } from '../redux/actions/profile';
+import styles from "../styles";
+import { f, facebookApi } from "../config/config";
+import { ClientRootStackNavigator } from "../navigation/ClientRootStackNavigator";
+import { ProviderRootStackNavigator } from "../navigation/ProviderRootStackNavigator";
+import { login } from "../redux/actions/profile";
+import { Text, View, Alert, Image, TouchableOpacity } from "react-native";
 
-const AppContainer = createAppContainer(RootStackNavigator);
+const ClientAppContainer = createAppContainer(ClientRootStackNavigator);
+const ProviderAppContainer = createAppContainer(ProviderRootStackNavigator);
 
 class Login extends React.Component {
-  state = {}
+  state = {};
 
   componentWillMount() {
-    f.auth().onAuthStateChanged((user) => {
+    f.auth().onAuthStateChanged(user => {
       if (user != null) {
-        this.props.dispatch(login(user))
+        this.props.dispatch(login(user));
       }
     });
   }
 
   login = async () => {
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
-      facebookApi, { permissions: ['public_profile'] });
-    if (type === 'success') {
-       
-        const credentials = f.auth.FacebookAuthProvider.credential(token);
+      facebookApi,
+      { permissions: ["public_profile"] }
+    );
+    if (type === "success") {
+      const credentials = f.auth.FacebookAuthProvider.credential(token);
 
-        f.auth().signInAndRetrieveDataWithCredential(credentials).catch((error)=>{
-            console.log(error);
-        })
-        
+      f.auth()
+        .signInAndRetrieveDataWithCredential(credentials)
+        .catch(error => {
+          console.log(error);
+        });
     }
-  } 
+  };
 
   render() {
-      if(this.props.loggedIn){
-        return (
-            <AppContainer />
-        )
+    if (this.props.loggedIn) {
+      if (this.props.user.type === "Client") {
+        return <ClientAppContainer />;
       } else {
-        return (
-          <View style={[styles.container, styles.center]}>
-            <Image source={require('../assets/geovender-logo.png')}/>
-            <TouchableOpacity onPress={() => this.login()}>
-              <Text style={styles.button}>Facebook</Text>
-            </TouchableOpacity>
-           </View>
-        )
+        return <ProviderAppContainer />;
       }
+    } else {
+      return (
+        <View style={[styles.container, styles.center]}>
+          <Image source={require("../assets/geovender-logo.png")} />
+          <TouchableOpacity onPress={() => this.login()}>
+            <Text style={styles.button}>Facebook</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
   }
 }
 
-mapStateToProps = (state) => {
+mapStateToProps = state => {
   return {
+    user: state.profile,
     loggedIn: state.profile.loggedIn
   };
-}
-  
+};
+
 export default connect(mapStateToProps)(Login);
